@@ -1,0 +1,42 @@
+package com.pluralsight.springboot.tickets;
+
+import java.util.NoSuchElementException;
+
+import com.pluralsight.springboot.tickets.registration.Registration;
+import com.pluralsight.springboot.tickets.repository.RegistrationReository;
+
+public class RegistrationController {
+	
+	private final RegistrationReository registrationReository;
+	
+	//constructor
+	public RegistrationController(RegistrationReository registrationReository) {
+		this.registrationReository = registrationReository;
+	}
+	
+	
+	public Registration createRegistration(Registration registration)
+	{//Create a Registration
+		return registrationReository.createRegistration(registration);
+	}
+	
+	
+	public Registration getByTicketCode(String ticketCode)
+	{//Get Registration entry ByTicketCOde
+		return registrationReository.findByTicketCode(ticketCode).orElseThrow(() -> new NoSuchElementException("Registration with given ticketcode "+ticketCode +" Not found"));
+		
+	}
+	
+	
+	public Registration updateRegistration(Registration registration)
+	{//Update a Registration if exists
+		return registrationReository.updateRegistration(registration);
+	}
+	
+	public void deleteRegistrationByTicketCode(String ticketCode)
+	{//Delete a Registration based on Ticket Code Passed
+		
+		registrationReository.deleteByTicketCode(ticketCode);
+	}
+
+}

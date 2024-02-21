@@ -1,0 +1,18 @@
+package com.pluralsight.springboot.tickets;
+
+import com.pluralsight.springboot.tickets.repository.RegistrationReository;
+
+public class RegistrationController {
+	
+	private final RegistrationReository registrationReository;
+	
+	//constructor
+	public RegistrationController(RegistrationReository registrationReository) {
+		this.registrationReository = registrationReository;
+	}
+	
+	
+	
+	
+
+}

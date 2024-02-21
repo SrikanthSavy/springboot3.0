@@ -1,0 +1,52 @@
+package com.pluralsight.springboot.tickets;
+
+import java.util.NoSuchElementException;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.pluralsight.springboot.tickets.registration.Registration;
+import com.pluralsight.springboot.tickets.repository.RegistrationReository;
+@RestController
+@RequestMapping(path = "/registrations")
+public class RegistrationController {
+	
+	private final RegistrationReository registrationReository;
+	
+	//constructor
+	public RegistrationController(RegistrationReository registrationReository) {
+		this.registrationReository = registrationReository;
+	}
+	
+	@PostMapping
+	public Registration createRegistration(@RequestBody Registration registration)
+	{//Create a Registration
+		return registrationReository.createRegistration(registration);
+	}
+	
+	@GetMapping(path ="/{ticketCode}")
+	public Registration getRegistrationByTicketCode(@PathVariable("ticketCode") String ticketCode)
+	{//Get Registration entry ByTicketCOde
+		return registrationReository.findByTicketCode(ticketCode).orElseThrow(() -> new NoSuchElementException("Registration with given ticketcode "+ticketCode +" Not found"));
+		
+	}
+	
+	@PutMapping
+	public Registration updateRegistration(@RequestBody Registration registration)
+	{//Update a Registration if exists
+		return registrationReository.updateRegistration(registration);
+	}
+	
+	@DeleteMapping(path="/{ticketCode}")
+	public void deleteRegistrationByTicketCode(String ticketCode)
+	{//Delete a Registration based on Ticket Code Passed
+		registrationReository.deleteByTicketCode(ticketCode);
+	}
+
+}
